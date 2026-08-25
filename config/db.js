@@ -1,29 +1,35 @@
 const mongoose = require('mongoose');
 
-let connectionPromise = null; 
+const cached = global.mongoose = {
+        conn: null,
+        promise: null,
+    };
 
 const connectDB = async () => {
-    if (mongoose.connection.readyState === 1) {
-        return;
+    if (cached.conn) {
+        return cached.conn;
     }
 
-    if (!connectionPromise) {
-        const connectionPromise = mongoose.connect(process.env.MONGO_URI, {
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(process.env.MONGO_URI, {
             serverSelectionTimeoutMS: 5000
         })
 
-            .then((conn) => {
-                console.log(`MongoDB connected : ${conn.connection.host}`);
-            })
+        .then((mongooseInstance) => {
+            console.log(`MongoDB connected : ${mongooseInstance.connection.host}`);
+            return mongooseInstance;
+        })
 
-            .catch ((error) => {
-                connectionPromise = null;
-                console.error(`MongoDB connection failed : ${error.message}`);
-                throw error;
+        .catch ((error) => {
+            cached.promise = null;
+            console.error(`MongoDB connection failed : ${error.message}`);
+            throw error;
         });
     }
 
-    await connectionPromise;
+    cached.conn = await cached.promise;
+
+    return cached.conn;
 };
 
 module.exports = connectDB;

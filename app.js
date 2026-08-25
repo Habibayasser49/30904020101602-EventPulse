@@ -37,7 +37,19 @@ app.use(async (req, res, next) => {
     }
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs/swagger.json', (req, res) => {
+    res.json(swaggerSpec);
+});
+
+app.use(
+    '/api-docs',
+    swaggerUi.serveFiles(null),
+    swaggerUi.setup(null, {
+        swaggerOptions: {
+            url: '/api-docs/swagger.json'
+        }
+    })
+);
 
 app.use('/api/auth', authRoutes);
 

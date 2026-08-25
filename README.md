@@ -30,10 +30,17 @@ EventPulse is a backend API for managing events, users, registrations, and annou
 - Swagger API documentation
 - Automated Jest and Supertest tests
 
-## Installation
+## GitHub repository URL
+https://github.com/Habibayasser49/30904020101602-EventPulse.git
 
-### 1. Clone the repository
+## Live Deployment
 
-```bash
-git clone https://github.com/Habibayasser49/30904020101602-EventPulse.git
-cd 30904020101602-EventPulse
+https://30904020101602-event-pulse.vercel.app
+
+## API Documentation
+
+https://30904020101602-event-pulse.vercel.app/api-docs
+
+## Health Check
+
+https://30904020101602-event-pulse.vercel.app/health

@@ -37,16 +37,12 @@ app.use(async (req, res, next) => {
     }
 });
 
-app.get('/api-docs/swagger.json', (req, res) => {
-    res.json(swaggerSpec);
-});
-
 app.use(
     '/api-docs',
-    swaggerUi.serveFiles(null),
-    swaggerUi.setup(null, {
-        swaggerOptions: {
-            url: '/api-docs/swagger.json'
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec , {
+            swaggerOptions: {
+                validatorUrl: null
         }
     })
 );
